@@ -1,0 +1,15 @@
+required:
+  - courseId
+  - name
+  - abbreviation
+  - description
+  - primaryCode
+  - level
+  - teachingLanguage
+  - validFrom
+  - educationSpecification
+  - duration
+properties:
+  consumers:
+    contains:
+      $ref: './CourseRioConsumer.yaml'

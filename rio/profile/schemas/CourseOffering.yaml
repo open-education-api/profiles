@@ -1,0 +1,14 @@
+allOf:
+  - $ref: './Offering.yaml'
+  - $ref: './CourseOfferingProperties.yaml'
+  - required:
+    - offeringId
+    - primaryCode
+    - offeringType
+    - name
+    - description
+    - teachingLanguage
+    - resultExpected
+    - startDate
+    - endDate
+    - enrollStartDate

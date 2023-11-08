@@ -1,0 +1,9 @@
+oneOf:
+  - $ref: './HoOpleidingProperties.yaml'
+  - $ref: './HOECProperties.yaml'
+  - $ref: './HoOnderwijsEenheidProperties.yaml'
+  - $ref: './HoParticuliereOpleidingProperties.yaml'
+properties:
+  consumers:
+    contains:
+      $ref: './EducationSpecificationRioConsumer.yaml'

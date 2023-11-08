@@ -1,0 +1,15 @@
+required:
+  - programId
+  - programType
+  - name
+  - abbreviation
+  - description
+  - primaryCode
+  - teachingLanguage
+  - validFrom
+  - educationSpecification
+  - duration
+properties:
+  consumers:
+    contains:
+      $ref: './ProgramRioConsumer.yaml'

@@ -1,0 +1,47 @@
+{:openapi-spec "rio.json"
+ :seeds
+ [{:method "get"
+   :path   "/courses"
+   :query-string "consumer=rio"}
+  {:method "get"
+   :path   "/education-specifications"
+   :query-string "consumer=rio"}
+  {:method "get"
+   :path   "/programs"
+   :query-string "consumer=rio"}]
+
+ :rules
+ [;; page through items list for any kind of entity
+  {:match     [[:request, :method, "get"]
+               [:request, :path, ?path]
+               [:response :status 200]
+               [:response, :body, "pageNumber", ?pageNumber]
+               [:response, :body, "hasNextPage", true]]
+   :generates [{:method "get"
+                :path   "{?path}?pageNumber={(inc ?pageNumber)}&consumer=rio"}]}
+
+
+  {:match     [[:request, :method, "get"]
+               [:response :status 200]
+               [:response, :body, "items", ?i "courseId" ?id]]
+   :generates [{:method "get"
+                :path   "/courses/{?id}"
+                :query-string "returnTimelineOverrides=true"}
+               {:method "get"
+                :path   "/courses/{?id}/offerings?pageSize=250&consumer=rio"}]}
+
+  {:match     [[:request, :method, "get"]
+               [:response :status 200]
+               [:response, :body, "items", ?i "educationSpecificationId" ?id]]
+   :generates [{:method "get"
+                :path   "/education-specifications/{?id}"
+                :query-string "returnTimelineOverrides=true"}]}
+
+  {:match     [[:request, :method, "get"]
+               [:response :status 200]
+               [:response, :body, "items", ?i "programId" ?id]]
+   :generates [{:method "get"
+                :path   "/programs/{?id}"
+                :query-string "returnTimelineOverrides=true"}
+               {:method "get"
+                :path   "/programs/{?id}/offerings?pageSize=250&consumer=rio"}]}]}

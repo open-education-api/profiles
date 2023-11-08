@@ -1,0 +1,12 @@
+get:
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            oneOf: null
+            anyOf:
+              - title: Without timelineOverrides (default)
+                $ref: '../schemas/EducationSpecification.yaml'
+              - title: With timelineOverrides
+                $ref: '../schemas/EducationSpecificationExpanded.yaml'

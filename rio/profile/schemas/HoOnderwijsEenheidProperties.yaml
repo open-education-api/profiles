@@ -1,0 +1,8 @@
+required:
+  - primaryCode
+  - educationSpecificationType
+  - name
+  - validFrom
+properties:
+  educationSpecificationType:
+    const: course
