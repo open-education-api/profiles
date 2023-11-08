@@ -1,0 +1,7 @@
+base-with-profile/
+.clj-kondo/
+.lsp/
+rio/target
+observations.edn
+eduhub-validator
+report.html

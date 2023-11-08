@@ -1,0 +1,162 @@
+#!/usr/bin/env bb
+;; MIT License
+
+;; Copyright (c) 2023 Joost Diepenmaat, Jomco BV
+
+;; Permission is hereby granted, free of charge, to any person
+;; obtaining a copy of this software and associated documentation
+;; files (the "Software"), to deal in the Software without
+;; restriction, including without limitation the rights to use, copy,
+;; modify, merge, publish, distribute, sublicense, and/or sell copies
+;; of the Software, and to permit persons to whom the Software is
+;; furnished to do so, subject to the following conditions:
+
+;; The above copyright notice and this permission notice shall be
+;; included in all copies or substantial portions of the Software.
+
+;; THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+;; EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+;; MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;; NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+;; BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+;; ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+;; CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+;; SOFTWARE.
+
+(ns nl.jomco.merge-yaml-tree
+  (:require [babashka.fs :as fs]
+            [clj-yaml.core :as yaml]
+            [clojure.string :as string]))
+
+(defn merge-data
+  "Merge two datastructures `base` and `profile`.
+
+  Recursively process data structures.
+
+  - If profile is nil, return base
+  - If both are maps, merge the maps recursively, removing
+    entries for which profile has a `nil` value.
+  - Otherwise, return profile"
+  [base profile]
+  (cond
+    (and (map? base) (map? profile))
+    (reduce-kv (fn [target k v]
+                 (if (nil? v)
+                   (dissoc target k)
+                   (update target k merge-data v)))
+               base
+               profile)
+
+    (nil? profile)
+    base
+
+    :else
+    profile))
+
+(defn read-yaml
+  "Read YAML data from file `f`."
+  [f]
+  (yaml/parse-string (slurp f) :keywords true))
+
+(defn write-yaml
+  "Write YAML from data to `f`."
+  [f data]
+  (spit f (yaml/generate-string data)))
+
+(defn file-refs
+  "Take a structure `x` and return its $ref entries with file paths.
+
+  A $ref entry is a map with a `:$ref` key."
+  [x]
+  (->> x
+       (tree-seq #(or (map? %) (sequential? %))
+                 #(if (map? %) (vals %) %))
+       (keep (fn [el]
+               (when (map? el)
+                 (:$ref el))))
+       ;; ignore internal JSON Pointer refs, we want paths to files.
+       (filter #(not (string/starts-with? % "#")))))
+
+(defn normalize-path
+  "Normalize `ref-path` relative to `source-path`.
+
+  Given two paths to files, where `ref-path` is relative to
+  `source-path`, return a normalized path, getting rid of \".\" and
+  \"..\" entries."
+  [source-path ref-path]
+  (->> (string/split ref-path #"[/\\]")
+       (concat (butlast (string/split source-path #"[/\\]")))
+       (reduce (fn [normal part]
+                 (case part
+                   "."
+
+                   normal
+                   ".."
+
+                   (subvec normal 0 (dec (count normal)))
+                   (conj normal part)))
+               [])
+       (string/join "/")))
+
+(defn merge-files
+  "Merge `base-path` and `profile-path` yaml files to `target-path`.
+
+  Creates parent dirs for `target-path` if necessary. See `merge-data`
+  for merge algorithm."
+  [base-path profile-path target-path]
+  ;; ensure path to target file exists
+  (fs/create-dirs (fs/parent target-path))
+  (cond
+    (and (fs/exists? base-path) (fs/exists? profile-path))
+    (write-yaml target-path
+                (merge-data (read-yaml base-path)
+                            (read-yaml profile-path)))
+
+    (fs/exists? base-path)
+    (fs/copy base-path target-path
+             {:replace-existing true})
+
+    (fs/exists? profile-path)
+    (fs/copy profile-path target-path
+             {:replace-existing true})
+
+    :else
+    (throw (ex-info "No file at base or profile"
+                    {:base-path    base-path
+                     :profile-path profile-path}))))
+
+(defn merge-trees
+  "Merge files in `base-dir` and `profile-dir` to `target-dir`.
+
+  Starts with `path`, then proceeds by merging the file $refs in the
+  result. Will only process each file once."
+  [{:keys [base-dir profile-dir target-dir]} path]
+  (loop [done #{}
+         [path & todo] [path]]
+
+    (merge-files (fs/file base-dir path)
+                 (fs/file profile-dir path)
+                 (fs/file target-dir path))
+    (let [refs (file-refs (read-yaml (fs/file target-dir path)))
+          done (conj done path)
+          todo (->> refs
+                    (map #(normalize-path path %))
+                    (remove done)
+                    (into todo))]
+      (when (seq todo)
+        (recur done todo)))))
+
+(defn -main
+  [& [base-dir profile-dir target-dir path :as args]]
+  (when-not (= 4 (count args))
+    (println "Usage: merge-yaml-tree BASEDIR PROFILEDIR TARGETDIR PATH
+
+BASEDIR    is the root of the default tree of yaml files
+PROFILEDIR is the root of the adjustments tree
+TARGETDIR  is the tree where the merged results will be written
+PATH       is the path to the root yaml file, relative to BASEDIR")
+    (System/exit 1))
+  (merge-trees {:base-dir    base-dir
+                :profile-dir profile-dir
+                :target-dir  target-dir} path))
+(apply -main *command-line-args*)
