@@ -2,13 +2,13 @@
  :seeds
  [{:method "get"
    :path   "/courses"
-   :query-string "consumer=rio"}
+   :query-params {"consumer" "rio"}}
   {:method "get"
    :path   "/education-specifications"
-   :query-string "consumer=rio"}
+   :query-params {"consumer" "rio"}}
   {:method "get"
    :path   "/programs"
-   :query-string "consumer=rio"}]
+   :query-params {"consumer" "rio"}}]
 
  :rules
  [;; page through items list for any kind of entity
@@ -18,7 +18,9 @@
                [:response, :body, "pageNumber", ?pageNumber]
                [:response, :body, "hasNextPage", true]]
    :generates [{:method "get"
-                :path   "{?path}?pageNumber={(inc ?pageNumber)}&consumer=rio"}]}
+                :path ?path
+                :query-params {"pageNumber" "{(inc ?pageNumber)}"
+                               "consumer" "rio"}}]}
 
 
   {:match     [[:request, :method, "get"]
@@ -26,22 +28,26 @@
                [:response, :body, "items", ?i "courseId" ?id]]
    :generates [{:method "get"
                 :path   "/courses/{?id}"
-                :query-string "returnTimelineOverrides=true"}
+                :query-params {"returnTimelineOverrides" "true"}}
                {:method "get"
-                :path   "/courses/{?id}/offerings?pageSize=250&consumer=rio"}]}
+                :path   "/courses/{?id}/offerings"
+                :query-params {"pageSize" "250"
+                               "consumer" "rio"}}]}
 
   {:match     [[:request, :method, "get"]
                [:response :status 200]
                [:response, :body, "items", ?i "educationSpecificationId" ?id]]
    :generates [{:method "get"
                 :path   "/education-specifications/{?id}"
-                :query-string "returnTimelineOverrides=true"}]}
+                :query-params {"returnTimelineOverrides" "true"}}]}
 
   {:match     [[:request, :method, "get"]
                [:response :status 200]
                [:response, :body, "items", ?i "programId" ?id]]
    :generates [{:method "get"
                 :path   "/programs/{?id}"
-                :query-string "returnTimelineOverrides=true"}
+                :query-params {"returnTimelineOverrides" "true"}}
                {:method "get"
-                :path   "/programs/{?id}/offerings?pageSize=250&consumer=rio"}]}]}
+                :path "/programs/{?id}/offerings"
+                :query-params {"pageSize" "250"
+                               "consumer" "rio"}}]}]}
