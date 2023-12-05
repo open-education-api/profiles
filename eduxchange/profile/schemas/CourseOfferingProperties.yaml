@@ -1,0 +1,13 @@
+required:
+  - primaryCode
+  - offeringType
+  - name
+  - description
+  - teachingLanguage
+  - resultExpected
+  - startDate
+  - endDate
+properties:
+  consumers:
+    contains:
+      $ref: './EduXchangeConsumerOffering.yaml'

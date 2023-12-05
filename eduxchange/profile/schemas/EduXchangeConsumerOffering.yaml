@@ -1,0 +1,9 @@
+allOf:
+  - $ref: './Consumer.yaml'
+  - properties:
+      consumerKey:
+        const: eduxchange
+      alliances:
+        type: array
+        description: A list of alliances
+        items: {$ref: ./EduXchangeConsumerOfferingALL.yaml}

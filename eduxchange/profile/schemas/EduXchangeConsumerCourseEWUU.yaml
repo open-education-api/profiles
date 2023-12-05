@@ -1,0 +1,60 @@
+required:
+ - name
+properties:
+  name:
+    type: string
+    description: |
+      The name of the alliance.
+    enum:
+      - ewuu
+  theme:
+    type: string
+    description: |
+      The theme of the Program or Course within the alliance.
+  selection:
+    type: boolean
+    description: |
+      A boolean indicating whether this Program or Course is selective, e.g. whether student need to pass extra requirements before being allowed to enroll.
+  type:
+    type: string
+    description: |
+      A string indicating whether a Program or Course is broadening or deepening.
+    enum:
+      - broadening
+      - deepening
+  visibleForOwnStudents:
+    type: boolean
+    description: |
+      A boolean value indicating whether this Program or Course should be visible for students of the offering institution.
+  enrollmentForOwnStudents:
+    type: string
+    description: |
+      A string indicating which enrollments process should be followed for students of the offering institution.
+    enum:
+      - broker
+      - url
+  source:
+    type: object
+    description: |
+      An optional object with a reference to the source of a Course or Program. In an alliance one of the institutions could act as overall coordinator and specifies the program and underlying courses. Underlying courses could be given at one of the other institutions. In this source object the course at the other institution can be specified.
+    properties:
+      shortName:
+        type: string
+        description: |
+          The shortName of the institution to identify the source institution.
+        enum:
+          - tue
+          - wur
+          - uu
+          - ul
+          - tud
+          - eur
+      primaryCode:
+        type: string
+        description: |
+          A string value with the primaryCode of the course to identify the source course.
+      uuid:
+        type: string
+        format: uuid
+        description: |
+          The uuid of the course to reference the OOAPI endpoint of the source course.

@@ -1,0 +1,100 @@
+required:
+ - name
+properties:
+  name:
+    const: euroteq
+  theme:
+    type: string
+    description: |
+      The theme of the Program or Course within the alliance.
+    enum:
+      - "Architecture and Construction"
+      - "Business and Economics"
+      - "Chemistry and Biology"
+      - "Computer Science and ICT, Data, AI"
+      - "Electrical Engineering"
+      - "Entrepreneurship"
+      - "Food and Health Sciences, Medical engineering"
+      - "Languages and Culture"
+      - "Manufacturing and Processing"
+      - "Mathematics and Statistics"
+      - "Mechanical Engineering"
+      - "Physics and Energy"
+      - "Transport"
+      - "Other subject area"
+  selection:
+    type: boolean
+    description: |
+      A boolean indicating whether this Program or Course is selective, e.g. whether student need to pass extra requirements before being allowed to enroll.
+  type:
+    type: string
+    description: |
+      A string indicating whether a Program or Course is broadening or deepening.
+    enum:
+      - broadening
+      - deepening
+  visibleForOwnStudents:
+    type: boolean
+    description: |
+      A boolean value indicating whether this Program or Course should be visible for students of the offering institution.
+  enrollmentForOwnStudents:
+    type: string
+    description: |
+      A string indicating which enrollments process should be followed for students of the offering institution.
+    enum:
+      - broker
+      - url
+  source:
+    type: object
+    description: |
+      An optional object with a reference to the source of a Course or Program. In an alliance one of the institutions could act as overall coordinator and specifies the program and underlying courses. Underlying courses could be given at one of the other institutions. In this source object the course at the other institution can be specified.
+    properties:
+      shortName:
+        type: string
+        description: |
+          The shortName of the institution to identify the source institution.
+        enum:
+          - tue
+          - taltech
+          - dtu
+          - lx
+          - ctu
+          - tum
+          - technion
+      primaryCode:
+        type: string
+        description: |
+          A string value with the primaryCode of the course to identify the source course.
+      uuid:
+        type: string
+        format: uuid
+        description: |
+          The uuid of the course to reference the OOAPI endpoint of the source course.
+  instructorNames:
+    type: array
+    description: |
+      An array with names of all instructors.
+    items:
+      type: string
+  contactHours:
+    type: number
+    format: float
+    description: |
+      A float with the amount of contact hours.
+  activities:
+    type: string
+    description: |
+      A string that mentions the activities that take place in the course.
+  modeOfDelivery:
+    type: string
+    enum:
+      - "Online - at a specific time"
+      - "Online - time-independent"
+      - "Hybrid"
+      - "Blended"
+  level:
+    type: string
+    enum:
+      - "Bachelor"
+      - "Master"
+      - "Doctoral"
