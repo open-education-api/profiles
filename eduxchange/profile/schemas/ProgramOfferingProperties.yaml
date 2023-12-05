@@ -1,0 +1,9 @@
+required:
+  - startDate
+  - endDate
+properties:
+  startDate: 
+    type: string 
+  consumers:
+    contains:
+      $ref: './EduXchangeConsumerOffering.yaml'

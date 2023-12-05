@@ -1,0 +1,13 @@
+required:
+  - name
+  - abbreviation
+  - description
+  - teachingLanguage
+  - level
+  - primaryCode
+  - studyLoad
+  - learningOutcomes
+properties:
+  consumers:
+    contains:
+      $ref: './EduXchangeConsumerCourse.yaml'

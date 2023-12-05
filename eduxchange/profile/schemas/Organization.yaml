@@ -1,0 +1,7 @@
+required:
+  - organizationId
+  - organizationType
+  - name
+  - shortName
+  - primaryCode
+

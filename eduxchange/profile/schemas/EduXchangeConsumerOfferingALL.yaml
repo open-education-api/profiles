@@ -1,0 +1,25 @@
+properties:
+  name:
+    type: string
+    description: |
+      The name of the alliance.
+    enum:
+      - ewuu
+      - lde
+      - euroteq
+  enrollmentUrl:
+    type: string
+    description: |
+      A string formatted as an URL to which students will be redirected.
+  enrollStartTime:
+    type: string
+    description: |
+      A string with the time of the start of the enrollment for the offering, for example “13:00”.
+  enrollEndTime:
+    type: string
+    description: |
+      A string with the time of the eduxchange of the enrollment for the offering, for example “20:00”.
+  dateComment:
+    type: string
+    description: |
+      A string with additional date information.
