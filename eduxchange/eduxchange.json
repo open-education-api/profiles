@@ -1366,6 +1366,198 @@
           }
         ]
       },
+      "EduXchangeConsumerOfferingALL": {
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the alliance.\n",
+            "enum": [
+              "ewuu",
+              "lde",
+              "euroteq"
+            ]
+          },
+          "enrollmentUrl": {
+            "type": "string",
+            "description": "A string formatted as an URL to which students will be redirected.\n"
+          },
+          "enrollmentUrlForGuests": {
+            "type": "string",
+            "description": "A string formatted as an URL to which students will be redirected.\n"
+          },
+          "enrollStartTime": {
+            "type": "string",
+            "description": "A string with the time of the start of the enrollment for the offering, for example “13:00”.\n"
+          },
+          "enrollEndTime": {
+            "type": "string",
+            "description": "A string with the time of the eduxchange of the enrollment for the offering, for example “20:00”.\n"
+          },
+          "dateComment": {
+            "type": "string",
+            "description": "A string with additional date information.\n"
+          }
+        }
+      },
+      "EduXchangeConsumerOffering": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Consumer"
+          },
+          {
+            "properties": {
+              "consumerKey": {
+                "const": "eduxchange"
+              },
+              "alliances": {
+                "type": "array",
+                "description": "A list of alliances",
+                "items": {
+                  "$ref": "#/components/schemas/EduXchangeConsumerOfferingALL"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "ProgramOfferingProperties": {
+        "properties": {
+          "offeringType": {
+            "const": "program"
+          },
+          "consumers": {
+            "contains": {
+              "$ref": "#/components/schemas/EduXchangeConsumerOffering"
+            }
+          }
+        }
+      },
+      "ProgramOffering": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Offering"
+          },
+          {
+            "$ref": "#/components/schemas/ProgramOfferingProperties",
+            "required": [
+              "primaryCode",
+              "offeringType",
+              "name",
+              "description",
+              "teachingLanguage",
+              "resultExpected",
+              "startDate",
+              "endDate"
+            ]
+          }
+        ]
+      },
+      "CourseResult": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Result"
+          },
+          {
+            "type": "object",
+            "required": [
+              "studyLoad"
+            ],
+            "properties": {
+              "studyLoad": {
+                "$ref": "#/components/schemas/StudyLoadDescriptor"
+              }
+            }
+          }
+        ]
+      },
+      "CourseOfferingAssociation": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Association"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "result": {
+                "$ref": "#/components/schemas/CourseResult"
+              }
+            }
+          }
+        ]
+      },
+      "CourseOfferingProperties": {
+        "properties": {
+          "offeringType": {
+            "const": "course"
+          },
+          "consumers": {
+            "contains": {
+              "$ref": "#/components/schemas/EduXchangeConsumerOffering"
+            }
+          }
+        }
+      },
+      "CourseOffering": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Offering"
+          },
+          {
+            "$ref": "#/components/schemas/CourseOfferingProperties",
+            "required": [
+              "primaryCode",
+              "offeringType",
+              "name",
+              "description",
+              "teachingLanguage",
+              "resultExpected",
+              "startDate",
+              "endDate"
+            ]
+          }
+        ]
+      },
+      "ComponentResult": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Result"
+          },
+          {
+            "type": "object",
+            "required": [
+              "weight"
+            ],
+            "properties": {
+              "weight": {
+                "type": "integer",
+                "description": "The weight to 100 as total for this offering in the course",
+                "format": "int32",
+                "minimum": 0,
+                "maximum": 100,
+                "example": 100
+              }
+            }
+          }
+        ]
+      },
+      "ComponentOfferingAssociation": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Association"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "result": {
+                "$ref": "#/components/schemas/ComponentResult"
+              }
+            }
+          }
+        ]
+      },
       "costType": {
         "type": "string",
         "description": "The type of the cost. This is an *extensible enumeration*.\n\nThe following values have been defined in the specification:\n  - `STAP eligible`: the costs that a student can get STAP subsidy for\n  - `total costs`: the total costs that a student is to pay to follow this offering\n\nImplementations are allowed to add additional values to those above, as long as they do not overlap in definition to existing values.\n",
@@ -1430,75 +1622,291 @@
         },
         "additionalProperties": false
       },
-      "ProgramId": {
+      "roomType": {
+        "type": "string",
+        "description": "The type of this room\n- general purpose: algemeen\n- lecture room: collegezaal\n- computer room: computerruimte\n- laboratory: laboratorium\n- office: kantoor\n- workspace: werkruimte\n- exam location: tentamenruimte\n- study room: studieruimte\n- examination room: onderzoekskamer\n- conference room: vergaderkamer\n",
+        "enum": [
+          "general purpose",
+          "lecture room",
+          "computer room",
+          "laboratory",
+          "office",
+          "workspace",
+          "exam location",
+          "study room",
+          "examination room",
+          "conference room"
+        ],
+        "example": "exam location"
+      },
+      "Building": {
         "type": "object",
-        "description": "A collection of courses that lead to a certifiable learning outcome",
+        "description": "An object describing a building and the properties of a building.",
         "required": [
-          "programId"
+          "buildingId",
+          "name",
+          "address",
+          "primaryCode"
         ],
         "properties": {
-          "programId": {
+          "buildingId": {
             "type": "string",
-            "description": "Unique id for this program",
+            "description": "Unique id of this building",
+            "format": "uuid",
+            "example": "123e4567-e89b-12d3-a456-331214174000"
+          },
+          "primaryCode": {
+            "description": "The primary human readable identifier for this building. This is often the source identifier as defined by the institution.",
+            "$ref": "#/components/schemas/IdentifierEntry",
+            "example": {
+              "codeType": "buildingId",
+              "code": "45"
+            }
+          },
+          "abbreviation": {
+            "type": "string",
+            "description": "The abbreviation of the name of this building",
+            "maxLength": 256,
+            "example": "Bb"
+          },
+          "name": {
+            "type": "array",
+            "description": "The name of this building",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/components/schemas/LanguageTypedString"
+            },
+            "example": [
+              {
+                "language": "en-GB",
+                "value": "Beatrix building"
+              }
+            ]
+          },
+          "description": {
+            "type": "array",
+            "description": "The description of this building.",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/components/schemas/LanguageTypedString"
+            },
+            "example": [
+              {
+                "language": "en-GB",
+                "value": "external rooms location for exams"
+              }
+            ]
+          },
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "otherCodes": {
+            "type": "array",
+            "description": "An array of additional human readable codes/identifiers for the entity being described.",
+            "items": {
+              "$ref": "#/components/schemas/IdentifierEntry"
+            },
+            "example": [
+              {
+                "codeType": "bagId",
+                "code": "0344100000139910"
+              }
+            ]
+          },
+          "consumers": {
+            "description": "The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Consumer"
+            },
+            "example": [
+              {
+                "consumerKey": "x-test-consumer",
+                "additional": "custom",
+                "attributes": "here"
+              }
+            ]
+          },
+          "ext": {
+            "$ref": "#/components/schemas/Ext"
+          }
+        }
+      },
+      "Room": {
+        "type": "object",
+        "description": "An area within a building where education can take place",
+        "required": [
+          "roomId",
+          "roomType",
+          "name",
+          "primaryCode"
+        ],
+        "properties": {
+          "roomId": {
+            "type": "string",
+            "description": "Unique id for this room",
+            "format": "uuid",
+            "example": "123e4567-e89b-12d3-a456-332114174000"
+          },
+          "primaryCode": {
+            "description": "The primary human readable identifier for the room. This is often the source identifier as defined by the institution.",
+            "$ref": "#/components/schemas/IdentifierEntry",
+            "example": {
+              "codeType": "roomCode",
+              "code": "Bb4.54"
+            }
+          },
+          "roomType": {
+            "$ref": "#/components/schemas/roomType"
+          },
+          "abbreviation": {
+            "type": "string",
+            "description": "The abbreviation of the name of this room",
+            "maxLength": 256,
+            "example": "Bb4.54"
+          },
+          "name": {
+            "type": "array",
+            "description": "The name of this room",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/components/schemas/LanguageTypedString"
+            },
+            "example": [
+              {
+                "language": "en-GB",
+                "value": "Beatrix building room 4.54"
+              }
+            ]
+          },
+          "description": {
+            "type": "array",
+            "description": "The description of this room. [The limited implementation of Git Hub Markdown syntax](#tag/formatting-and-displaying-results-from-API) MAY be used for rich text representation.",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/components/schemas/LanguageTypedString"
+            },
+            "example": [
+              {
+                "language": "en-GB",
+                "value": "External education and exam room 4.54"
+              }
+            ]
+          },
+          "totalSeats": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The total number of seats located in the room",
+            "example": 300
+          },
+          "availableSeats": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The total number of available (=non-reserved) seats in the room",
+            "example": 200
+          },
+          "floor": {
+            "type": "string",
+            "description": "The floor on which this room is located",
+            "example": "4"
+          },
+          "wing": {
+            "type": "string",
+            "description": "The wing in which this room is located",
+            "example": "None"
+          },
+          "geolocation": {
+            "type": "object",
+            "description": "Geolocation of the entrance of this room (WGS84 coordinate reference system)",
+            "required": [
+              "latitude",
+              "longitude"
+            ],
+            "properties": {
+              "latitude": {
+                "type": "number",
+                "format": "double",
+                "example": 52.088255
+              },
+              "longitude": {
+                "type": "number",
+                "format": "double",
+                "example": 5.106669
+              }
+            }
+          },
+          "otherCodes": {
+            "type": "array",
+            "description": "An array of additional human readable codes/identifiers for the entity being described.",
+            "items": {
+              "$ref": "#/components/schemas/IdentifierEntry"
+            }
+          },
+          "building": {
+            "description": "The building in which the room is located. [`expandable`](#tag/building_model)\nBy default only the `buildingId` (a string) is returned. If the client requested an expansion of `building` the full building object should be returned.\n",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Identifier",
+                "title": "buildingId"
+              },
+              {
+                "$ref": "#/components/schemas/Building",
+                "title": "Building object"
+              }
+            ]
+          },
+          "consumers": {
+            "description": "The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Consumer"
+            },
+            "example": [
+              {
+                "consumerKey": "x-test-consumer",
+                "additional": "custom",
+                "attributes": "here"
+              }
+            ]
+          },
+          "ext": {
+            "$ref": "#/components/schemas/Ext"
+          }
+        }
+      },
+      "componentType": {
+        "type": "string",
+        "description": "The component type\n- test: tentamen\n- lecture: college\n- practical: practicum\n- tutorial: werkcollege\n- consultation: consultatie\n- project: project\n- workshop: workshop\n- excursion: excursie\n- independent study: zelfstudie\n- external: extern\n- skills training: vaardighedentraining\n",
+        "enum": [
+          "test",
+          "lecture",
+          "practical",
+          "tutorial",
+          "consultation",
+          "project",
+          "workshop",
+          "excursion",
+          "independent study",
+          "external",
+          "skills training"
+        ],
+        "example": "test"
+      },
+      "CourseId": {
+        "type": "object",
+        "description": "An object describing the metadata of a course",
+        "required": [
+          "courseId"
+        ],
+        "properties": {
+          "courseId": {
+            "type": "string",
+            "description": "Unique id of this course",
             "format": "uuid",
             "example": "123e4567-e89b-12d3-a456-426614174000",
             "readOnly": true
           }
         }
-      },
-      "programType": {
-        "type": "string",
-        "description": "The type of this program\n- program: opleiding\n- minor: minor\n- honours: honours\n- specialization: specialisatie\n- track: track\n",
-        "enum": [
-          "program",
-          "minor",
-          "honours",
-          "specialization",
-          "track"
-        ],
-        "example": "program"
-      },
-      "qualificationAwarded": {
-        "type": "string",
-        "description": "Type of qualificaton that can be obtained on finishing the program",
-        "enum": [
-          "AD",
-          "BA",
-          "BSc",
-          "LLB",
-          "MA",
-          "MSc",
-          "LLM",
-          "Phd",
-          "None"
-        ],
-        "example": "None"
-      },
-      "modeOfStudy": {
-        "type": "string",
-        "description": "Indicates whether the education is full-time, part-time, dual or self-paced.\n  - full-time: fulltime\n  - part-time: parttime\n  - dual training: duaal\n  - self-paced: eigen tempo\n",
-        "enum": [
-          "full-time",
-          "part-time",
-          "dual training",
-          "self-paced"
-        ]
-      },
-      "levelOfQualification": {
-        "type": "string",
-        "description": "Level of qualification according to the Dutch National Qualification Framework and the European Qualifications Framework, see [this overview](https://nlqf.nl/images/downloads/English2018/Schematic_overview_NLQF_2020.pdf) for more information.",
-        "enum": [
-          "1",
-          "2",
-          "3",
-          "4",
-          "4+",
-          "5",
-          "6",
-          "7",
-          "8"
-        ],
-        "example": "6"
       },
       "level": {
         "type": "string",
@@ -1519,16 +1927,6 @@
           "nt2-2"
         ],
         "example": "master"
-      },
-      "sector": {
-        "type": "string",
-        "description": "The sector for this program\n- secondary vocational education: middelbaar beroepsonderwijs\n- higher professional education: hoger beroepsonderwijs\n- university education: universitair onderwijs\n",
-        "enum": [
-          "secondary vocational education",
-          "higher professional education",
-          "university education"
-        ],
-        "example": "university education"
       },
       "EducationSpecificationId": {
         "type": "object",
@@ -1566,6 +1964,32 @@
           "school advice"
         ],
         "example": "diploma"
+      },
+      "sector": {
+        "type": "string",
+        "description": "The sector for this program\n- secondary vocational education: middelbaar beroepsonderwijs\n- higher professional education: hoger beroepsonderwijs\n- university education: universitair onderwijs\n",
+        "enum": [
+          "secondary vocational education",
+          "higher professional education",
+          "university education"
+        ],
+        "example": "university education"
+      },
+      "levelOfQualification": {
+        "type": "string",
+        "description": "Level of qualification according to the Dutch National Qualification Framework and the European Qualifications Framework, see [this overview](https://nlqf.nl/images/downloads/English2018/Schematic_overview_NLQF_2020.pdf) for more information.",
+        "enum": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "4+",
+          "5",
+          "6",
+          "7",
+          "8"
+        ],
+        "example": "6"
       },
       "EducationSpecification": {
         "allOf": [
@@ -1610,10 +2034,10 @@
         "description": "A description of a group of people working together to achieve a goal",
         "required": [
           "organizationId",
+          "primaryCode",
           "organizationType",
           "name",
-          "shortName",
-          "primaryCode"
+          "shortName"
         ],
         "properties": {
           "organizationId": {
@@ -1926,45 +2350,24 @@
           }
         }
       },
-      "Program": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/ProgramId"
-          },
-          {
-            "$ref": "#/components/schemas/ProgramProperties"
-          },
-          {
-            "properties": {
-              "validFrom": {
-                "description": "The first day this program is valid (inclusive).",
-                "type": "string",
-                "format": "date"
-              },
-              "validTo": {
-                "description": "The day this program ceases to be valid (e.g. exclusive).",
-                "type": "string",
-                "format": "date"
-              }
-            }
-          }
-        ]
-      },
       "EduXchangeConsumerCourseEWUU": {
         "required": [
           "name"
         ],
         "properties": {
           "name": {
-            "type": "string",
-            "description": "The name of the alliance.\n",
-            "enum": [
-              "ewuu"
-            ]
+            "const": "ewuu"
           },
           "theme": {
             "type": "string",
             "description": "The theme of the Program or Course within the alliance.\n"
+          },
+          "themes": {
+            "type": "array",
+            "description": "An array with a list of themes.\n",
+            "items": {
+              "type": "string"
+            }
           },
           "selection": {
             "type": "boolean",
@@ -1990,6 +2393,30 @@
               "url"
             ]
           },
+          "visibleForGuests": {
+            "type": "boolean",
+            "description": "A boolean value indicating whether this Program or Course should be visible for students outside the partner institutions.\n"
+          },
+          "enrollmentForGuests": {
+            "type": "string",
+            "description": "A string indicating which enrollments process should be followed for students outside the partner institutions.\n",
+            "enum": [
+              "broker",
+              "url"
+            ]
+          },
+          "jointPartnerCodes": {
+            "type": "array",
+            "description": "An array with a list of themes.\n",
+            "items": {
+              "type": "string",
+              "enum": [
+                "uu",
+                "wur",
+                "tue"
+              ]
+            }
+          },
           "source": {
             "type": "object",
             "description": "An optional object with a reference to the source of a Course or Program. In an alliance one of the institutions could act as overall coordinator and specifies the program and underlying courses. Underlying courses could be given at one of the other institutions. In this source object the course at the other institution can be specified.\n",
@@ -2000,10 +2427,7 @@
                 "enum": [
                   "tue",
                   "wur",
-                  "uu",
-                  "ul",
-                  "tud",
-                  "eur"
+                  "uu"
                 ]
               },
               "primaryCode": {
@@ -2025,15 +2449,42 @@
         ],
         "properties": {
           "name": {
-            "type": "string",
-            "description": "The name of the alliance.\n",
-            "enum": [
-              "lde"
-            ]
+            "const": "lde"
           },
           "theme": {
             "type": "string",
-            "description": "The theme of the Program or Course within the alliance.\n"
+            "description": "The theme of the Program or Course within the alliance.\n",
+            "enum": [
+              "10",
+              "11",
+              "12",
+              "13",
+              "14",
+              "15",
+              "16",
+              "17",
+              "18",
+              "19"
+            ]
+          },
+          "themes": {
+            "type": "array",
+            "description": "An array with a list of themes.\n",
+            "items": {
+              "type": "string",
+              "enum": [
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15",
+                "16",
+                "17",
+                "18",
+                "19"
+              ]
+            }
           },
           "selection": {
             "type": "boolean",
@@ -2059,6 +2510,30 @@
               "url"
             ]
           },
+          "visibleForGuests": {
+            "type": "boolean",
+            "description": "A boolean value indicating whether this Program or Course should be visible for students outside the partner institutions.\n"
+          },
+          "enrollmentForGuests": {
+            "type": "string",
+            "description": "A string indicating which enrollments process should be followed for students outside the partner institutions.\n",
+            "enum": [
+              "broker",
+              "url"
+            ]
+          },
+          "jointPartnerCodes": {
+            "type": "array",
+            "description": "An array with a list of themes.\n",
+            "items": {
+              "type": "string",
+              "enum": [
+                "21PE",
+                "21PF",
+                "21PB"
+              ]
+            }
+          },
           "source": {
             "type": "object",
             "description": "An optional object with a reference to the source of a Course or Program. In an alliance one of the institutions could act as overall coordinator and specifies the program and underlying courses. Underlying courses could be given at one of the other institutions. In this source object the course at the other institution can be specified.\n",
@@ -2067,12 +2542,9 @@
                 "type": "string",
                 "description": "The shortName of the institution to identify the source institution.\n",
                 "enum": [
-                  "tue",
-                  "wur",
-                  "uu",
-                  "ul",
-                  "tud",
-                  "eur"
+                  "21PE",
+                  "21PF",
+                  "21PB"
                 ]
               },
               "primaryCode": {
@@ -2116,6 +2588,29 @@
               "Other subject area"
             ]
           },
+          "themes": {
+            "type": "array",
+            "description": "An array with a list of themes.\n",
+            "items": {
+              "type": "string",
+              "enum": [
+                "Architecture and Construction",
+                "Business and Economics",
+                "Chemistry and Biology",
+                "Computer Science and ICT, Data, AI",
+                "Electrical Engineering",
+                "Entrepreneurship",
+                "Food and Health Sciences, Medical engineering",
+                "Languages and Culture",
+                "Manufacturing and Processing",
+                "Mathematics and Statistics",
+                "Mechanical Engineering",
+                "Physics and Energy",
+                "Transport",
+                "Other subject area"
+              ]
+            }
+          },
           "selection": {
             "type": "boolean",
             "description": "A boolean indicating whether this Program or Course is selective, e.g. whether student need to pass extra requirements before being allowed to enroll.\n"
@@ -2139,6 +2634,34 @@
               "broker",
               "url"
             ]
+          },
+          "visibleForGuests": {
+            "type": "boolean",
+            "description": "A boolean value indicating whether this Program or Course should be visible for students outside the partner institutions.\n"
+          },
+          "enrollmentForGuests": {
+            "type": "string",
+            "description": "A string indicating which enrollments process should be followed for students outside the partner institutions.\n",
+            "enum": [
+              "broker",
+              "url"
+            ]
+          },
+          "jointPartnerCodes": {
+            "type": "array",
+            "description": "An array with a list of themes.\n",
+            "items": {
+              "type": "string",
+              "enum": [
+                "tue",
+                "taltech",
+                "dtu",
+                "lx",
+                "ctu",
+                "tum",
+                "technion"
+              ]
+            }
           },
           "source": {
             "type": "object",
@@ -2234,19 +2757,96 @@
           }
         ]
       },
+      "ProgramId": {
+        "type": "object",
+        "description": "A collection of courses that lead to a certifiable learning outcome",
+        "required": [
+          "programId"
+        ],
+        "properties": {
+          "programId": {
+            "type": "string",
+            "description": "Unique id for this program",
+            "format": "uuid",
+            "example": "123e4567-e89b-12d3-a456-426614174000",
+            "readOnly": true
+          }
+        }
+      },
+      "programType": {
+        "type": "string",
+        "description": "The type of this program\n- program: opleiding\n- minor: minor\n- honours: honours\n- specialization: specialisatie\n- track: track\n",
+        "enum": [
+          "program",
+          "minor",
+          "honours",
+          "specialization",
+          "track"
+        ],
+        "example": "program"
+      },
+      "qualificationAwarded": {
+        "type": "string",
+        "description": "Type of qualificaton that can be obtained on finishing the program",
+        "enum": [
+          "AD",
+          "BA",
+          "BSc",
+          "LLB",
+          "MA",
+          "MSc",
+          "LLM",
+          "Phd",
+          "None"
+        ],
+        "example": "None"
+      },
+      "modeOfStudy": {
+        "type": "string",
+        "description": "Indicates whether the education is full-time, part-time, dual or self-paced.\n  - full-time: fulltime\n  - part-time: parttime\n  - dual training: duaal\n  - self-paced: eigen tempo\n",
+        "enum": [
+          "full-time",
+          "part-time",
+          "dual training",
+          "self-paced"
+        ]
+      },
+      "Program": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ProgramId"
+          },
+          {
+            "$ref": "#/components/schemas/ProgramProperties"
+          },
+          {
+            "properties": {
+              "validFrom": {
+                "description": "The first day this program is valid (inclusive).",
+                "type": "string",
+                "format": "date"
+              },
+              "validTo": {
+                "description": "The day this program ceases to be valid (e.g. exclusive).",
+                "type": "string",
+                "format": "date"
+              }
+            }
+          }
+        ]
+      },
       "ProgramProperties": {
         "type": "object",
         "description": "A collection of courses that lead to a certifiable learning outcome",
         "required": [
+          "primaryCode",
           "programType",
           "name",
           "abbreviation",
           "description",
-          "primaryCode",
           "teachingLanguage",
           "level",
-          "studyLoad",
-          "learningOutcomes"
+          "studyLoad"
         ],
         "properties": {
           "primaryCode": {
@@ -2550,158 +3150,17 @@
           }
         }
       },
-      "ProgramOffering": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Offering"
-          },
-          {
-            "type": "object",
-            "required": [
-              "startDate",
-              "endDate"
-            ],
-            "properties": {
-              "startDate": {
-                "type": "string",
-                "description": "The moment on which this offering starts, RFC3339 (full-date)",
-                "format": "date",
-                "example": "2019-08-21"
-              },
-              "endDate": {
-                "type": "string",
-                "description": "The moment on which this offering ends, RFC3339 (full-date)",
-                "format": "date",
-                "example": "2023-06-15"
-              },
-              "enrollStartDate": {
-                "type": "string",
-                "description": "The first day on which a student can enroll for this program.",
-                "format": "date",
-                "example": "2019-05-01"
-              },
-              "enrollEndDate": {
-                "type": "string",
-                "description": "The last day on which a student can enroll for this program.",
-                "format": "date",
-                "example": "2019-08-01"
-              },
-              "flexibleEntryPeriodStart": {
-                "type": "string",
-                "description": "If this is a program wherein participants can start at various moments, without missing anything, use this attribute in combination with `flexibleEntryPeriodEnd`.",
-                "format": "date"
-              },
-              "flexibleEntryPeriodEnd": {
-                "type": "string",
-                "description": "If this is a program wherein participants can start at various moments, without missing anything, use this attribute in combination with `flexibleEntryPeriodStart`.",
-                "format": "date"
-              },
-              "addresses": {
-                "type": "array",
-                "description": "Addresses for this offering",
-                "items": {
-                  "$ref": "#/components/schemas/Address"
-                }
-              },
-              "priceInformation": {
-                "type": "array",
-                "description": "Price information for this offering.",
-                "items": {
-                  "$ref": "#/components/schemas/Cost"
-                },
-                "minItems": 1
-              },
-              "program": {
-                "description": "The Program that is offered in this programoffering. [`expandable`](#tag/program_model)\nBy default only the `programId` (a string) is returned. If the client requested an expansion of `program` the full program object should be returned.\n",
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/Identifier",
-                    "title": "programId"
-                  },
-                  {
-                    "$ref": "#/components/schemas/Program",
-                    "title": "Program object"
-                  }
-                ]
-              },
-              "organization": {
-                "description": "The organization that manages this programeoffering. [`expandable`](#tag/organization_model)\nBy default only the `organizationId` (a string) is returned. If the client requested an expansion of `organization` the full organization object should be returned.\n",
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/Identifier",
-                    "title": "organizationId"
-                  },
-                  {
-                    "$ref": "#/components/schemas/Organization",
-                    "title": "Organization object"
-                  }
-                ]
-              }
-            }
-          }
-        ]
-      },
-      "CourseResult": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Result"
-          },
-          {
-            "type": "object",
-            "required": [
-              "studyLoad"
-            ],
-            "properties": {
-              "studyLoad": {
-                "$ref": "#/components/schemas/StudyLoadDescriptor"
-              }
-            }
-          }
-        ]
-      },
-      "CourseOfferingAssociation": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Association"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "result": {
-                "$ref": "#/components/schemas/CourseResult"
-              }
-            }
-          }
-        ]
-      },
-      "CourseId": {
-        "type": "object",
-        "description": "An object describing the metadata of a course",
-        "required": [
-          "courseId"
-        ],
-        "properties": {
-          "courseId": {
-            "type": "string",
-            "description": "Unique id of this course",
-            "format": "uuid",
-            "example": "123e4567-e89b-12d3-a456-426614174000",
-            "readOnly": true
-          }
-        }
-      },
       "CourseProperties": {
         "type": "object",
         "description": "An object describing the metadata of a course",
         "required": [
+          "primaryCode",
           "name",
           "abbreviation",
           "description",
           "teachingLanguage",
           "level",
-          "primaryCode",
-          "studyLoad",
-          "learningOutcomes"
+          "studyLoad"
         ],
         "properties": {
           "primaryCode": {
@@ -2985,417 +3444,6 @@
             }
           }
         ]
-      },
-      "CourseOffering": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Offering"
-          },
-          {
-            "type": "object",
-            "required": [
-              "startDate",
-              "endDate"
-            ],
-            "properties": {
-              "startDate": {
-                "type": "string",
-                "description": "The moment on which this offering starts, RFC3339 (full-date)",
-                "format": "date",
-                "example": "2019-08-21"
-              },
-              "endDate": {
-                "type": "string",
-                "description": "The moment on which this offering ends, RFC3339 (full-date)",
-                "format": "date",
-                "example": "2019-10-23"
-              },
-              "enrollStartDate": {
-                "type": "string",
-                "description": "The first day on which a student can enroll for this course.",
-                "format": "date",
-                "example": "2019-05-01"
-              },
-              "enrollEndDate": {
-                "type": "string",
-                "description": "The last day on which a student can enroll for this course.",
-                "format": "date",
-                "example": "2019-08-01"
-              },
-              "flexibleEntryPeriodStart": {
-                "type": "string",
-                "description": "If this is a course wherein participants can start at various moments, without missing anything, use this attribute in combination with `flexibleEntryPeriodEnd`.",
-                "format": "date"
-              },
-              "flexibleEntryPeriodEnd": {
-                "type": "string",
-                "description": "If this is a course wherein participants can start at various moments, without missing anything, use this attribute in combination with `flexibleEntryPeriodStart`.",
-                "format": "date"
-              },
-              "addresses": {
-                "type": "array",
-                "description": "Addresses for this offering",
-                "items": {
-                  "$ref": "#/components/schemas/Address"
-                }
-              },
-              "priceInformation": {
-                "type": "array",
-                "description": "Price information for this offering.",
-                "items": {
-                  "$ref": "#/components/schemas/Cost"
-                }
-              },
-              "course": {
-                "description": "The course that is offered in this courseoffering. [`expandable`](#tag/course_model)\nBy default only the `courseId` (a string) is returned. If the client requested an expansion of `course` the full course object should be returned.\n",
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/Identifier",
-                    "title": "courseId"
-                  },
-                  {
-                    "$ref": "#/components/schemas/Course",
-                    "title": "Course object"
-                  }
-                ]
-              },
-              "programOffering": {
-                "description": "The programoffering where this courseoffering is related to. [`expandable`](#tag/program_offering_model)\nBy default only the `programOfferingId` (a string) is returned. If the client requested an expansion of `programOffering` the full programOffering object should be returned.\n",
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/Identifier",
-                    "title": "programOfferingId"
-                  },
-                  {
-                    "$ref": "#/components/schemas/ProgramOffering",
-                    "title": "ProgramOffering object"
-                  }
-                ]
-              },
-              "organization": {
-                "description": "The organization that manages this courseoffering. [`expandable`](#tag/organization_model)\nBy default only the `organizationId` (a string) is returned. If the client requested an expansion of `organization` the full organization object should be returned.\n",
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/Identifier",
-                    "title": "organizationId"
-                  },
-                  {
-                    "$ref": "#/components/schemas/Organization",
-                    "title": "Organization object"
-                  }
-                ]
-              }
-            }
-          }
-        ]
-      },
-      "ComponentResult": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Result"
-          },
-          {
-            "type": "object",
-            "required": [
-              "weight"
-            ],
-            "properties": {
-              "weight": {
-                "type": "integer",
-                "description": "The weight to 100 as total for this offering in the course",
-                "format": "int32",
-                "minimum": 0,
-                "maximum": 100,
-                "example": 100
-              }
-            }
-          }
-        ]
-      },
-      "ComponentOfferingAssociation": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Association"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "result": {
-                "$ref": "#/components/schemas/ComponentResult"
-              }
-            }
-          }
-        ]
-      },
-      "roomType": {
-        "type": "string",
-        "description": "The type of this room\n- general purpose: algemeen\n- lecture room: collegezaal\n- computer room: computerruimte\n- laboratory: laboratorium\n- office: kantoor\n- workspace: werkruimte\n- exam location: tentamenruimte\n- study room: studieruimte\n- examination room: onderzoekskamer\n- conference room: vergaderkamer\n",
-        "enum": [
-          "general purpose",
-          "lecture room",
-          "computer room",
-          "laboratory",
-          "office",
-          "workspace",
-          "exam location",
-          "study room",
-          "examination room",
-          "conference room"
-        ],
-        "example": "exam location"
-      },
-      "Building": {
-        "type": "object",
-        "description": "An object describing a building and the properties of a building.",
-        "required": [
-          "buildingId",
-          "name",
-          "address",
-          "primaryCode"
-        ],
-        "properties": {
-          "buildingId": {
-            "type": "string",
-            "description": "Unique id of this building",
-            "format": "uuid",
-            "example": "123e4567-e89b-12d3-a456-331214174000"
-          },
-          "primaryCode": {
-            "description": "The primary human readable identifier for this building. This is often the source identifier as defined by the institution.",
-            "$ref": "#/components/schemas/IdentifierEntry",
-            "example": {
-              "codeType": "buildingId",
-              "code": "45"
-            }
-          },
-          "abbreviation": {
-            "type": "string",
-            "description": "The abbreviation of the name of this building",
-            "maxLength": 256,
-            "example": "Bb"
-          },
-          "name": {
-            "type": "array",
-            "description": "The name of this building",
-            "minItems": 1,
-            "items": {
-              "$ref": "#/components/schemas/LanguageTypedString"
-            },
-            "example": [
-              {
-                "language": "en-GB",
-                "value": "Beatrix building"
-              }
-            ]
-          },
-          "description": {
-            "type": "array",
-            "description": "The description of this building.",
-            "minItems": 1,
-            "items": {
-              "$ref": "#/components/schemas/LanguageTypedString"
-            },
-            "example": [
-              {
-                "language": "en-GB",
-                "value": "external rooms location for exams"
-              }
-            ]
-          },
-          "address": {
-            "$ref": "#/components/schemas/Address"
-          },
-          "otherCodes": {
-            "type": "array",
-            "description": "An array of additional human readable codes/identifiers for the entity being described.",
-            "items": {
-              "$ref": "#/components/schemas/IdentifierEntry"
-            },
-            "example": [
-              {
-                "codeType": "bagId",
-                "code": "0344100000139910"
-              }
-            ]
-          },
-          "consumers": {
-            "description": "The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Consumer"
-            },
-            "example": [
-              {
-                "consumerKey": "x-test-consumer",
-                "additional": "custom",
-                "attributes": "here"
-              }
-            ]
-          },
-          "ext": {
-            "$ref": "#/components/schemas/Ext"
-          }
-        }
-      },
-      "Room": {
-        "type": "object",
-        "description": "An area within a building where education can take place",
-        "required": [
-          "roomId",
-          "roomType",
-          "name",
-          "primaryCode"
-        ],
-        "properties": {
-          "roomId": {
-            "type": "string",
-            "description": "Unique id for this room",
-            "format": "uuid",
-            "example": "123e4567-e89b-12d3-a456-332114174000"
-          },
-          "primaryCode": {
-            "description": "The primary human readable identifier for the room. This is often the source identifier as defined by the institution.",
-            "$ref": "#/components/schemas/IdentifierEntry",
-            "example": {
-              "codeType": "roomCode",
-              "code": "Bb4.54"
-            }
-          },
-          "roomType": {
-            "$ref": "#/components/schemas/roomType"
-          },
-          "abbreviation": {
-            "type": "string",
-            "description": "The abbreviation of the name of this room",
-            "maxLength": 256,
-            "example": "Bb4.54"
-          },
-          "name": {
-            "type": "array",
-            "description": "The name of this room",
-            "minItems": 1,
-            "items": {
-              "$ref": "#/components/schemas/LanguageTypedString"
-            },
-            "example": [
-              {
-                "language": "en-GB",
-                "value": "Beatrix building room 4.54"
-              }
-            ]
-          },
-          "description": {
-            "type": "array",
-            "description": "The description of this room. [The limited implementation of Git Hub Markdown syntax](#tag/formatting-and-displaying-results-from-API) MAY be used for rich text representation.",
-            "minItems": 1,
-            "items": {
-              "$ref": "#/components/schemas/LanguageTypedString"
-            },
-            "example": [
-              {
-                "language": "en-GB",
-                "value": "External education and exam room 4.54"
-              }
-            ]
-          },
-          "totalSeats": {
-            "type": "integer",
-            "format": "int32",
-            "description": "The total number of seats located in the room",
-            "example": 300
-          },
-          "availableSeats": {
-            "type": "integer",
-            "format": "int32",
-            "description": "The total number of available (=non-reserved) seats in the room",
-            "example": 200
-          },
-          "floor": {
-            "type": "string",
-            "description": "The floor on which this room is located",
-            "example": "4"
-          },
-          "wing": {
-            "type": "string",
-            "description": "The wing in which this room is located",
-            "example": "None"
-          },
-          "geolocation": {
-            "type": "object",
-            "description": "Geolocation of the entrance of this room (WGS84 coordinate reference system)",
-            "required": [
-              "latitude",
-              "longitude"
-            ],
-            "properties": {
-              "latitude": {
-                "type": "number",
-                "format": "double",
-                "example": 52.088255
-              },
-              "longitude": {
-                "type": "number",
-                "format": "double",
-                "example": 5.106669
-              }
-            }
-          },
-          "otherCodes": {
-            "type": "array",
-            "description": "An array of additional human readable codes/identifiers for the entity being described.",
-            "items": {
-              "$ref": "#/components/schemas/IdentifierEntry"
-            }
-          },
-          "building": {
-            "description": "The building in which the room is located. [`expandable`](#tag/building_model)\nBy default only the `buildingId` (a string) is returned. If the client requested an expansion of `building` the full building object should be returned.\n",
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/Identifier",
-                "title": "buildingId"
-              },
-              {
-                "$ref": "#/components/schemas/Building",
-                "title": "Building object"
-              }
-            ]
-          },
-          "consumers": {
-            "description": "The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Consumer"
-            },
-            "example": [
-              {
-                "consumerKey": "x-test-consumer",
-                "additional": "custom",
-                "attributes": "here"
-              }
-            ]
-          },
-          "ext": {
-            "$ref": "#/components/schemas/Ext"
-          }
-        }
-      },
-      "componentType": {
-        "type": "string",
-        "description": "The component type\n- test: tentamen\n- lecture: college\n- practical: practicum\n- tutorial: werkcollege\n- consultation: consultatie\n- project: project\n- workshop: workshop\n- excursion: excursie\n- independent study: zelfstudie\n- external: extern\n- skills training: vaardighedentraining\n",
-        "enum": [
-          "test",
-          "lecture",
-          "practical",
-          "tutorial",
-          "consultation",
-          "project",
-          "workshop",
-          "excursion",
-          "independent study",
-          "external",
-          "skills training"
-        ],
-        "example": "test"
       },
       "Component": {
         "type": "object",

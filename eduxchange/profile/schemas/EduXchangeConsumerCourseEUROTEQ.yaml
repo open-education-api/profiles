@@ -22,6 +22,27 @@ properties:
       - "Physics and Energy"
       - "Transport"
       - "Other subject area"
+  themes:
+    type: array
+    description: |
+      An array with a list of themes.
+    items:
+      type: string
+      enum:
+      - "Architecture and Construction"
+      - "Business and Economics"
+      - "Chemistry and Biology"
+      - "Computer Science and ICT, Data, AI"
+      - "Electrical Engineering"
+      - "Entrepreneurship"
+      - "Food and Health Sciences, Medical engineering"
+      - "Languages and Culture"
+      - "Manufacturing and Processing"
+      - "Mathematics and Statistics"
+      - "Mechanical Engineering"
+      - "Physics and Energy"
+      - "Transport"
+      - "Other subject area"
   selection:
     type: boolean
     description: |
@@ -44,6 +65,31 @@ properties:
     enum:
       - broker
       - url
+  visibleForGuests:
+    type: boolean
+    description: |
+      A boolean value indicating whether this Program or Course should be visible for students outside the partner institutions.
+  enrollmentForGuests:
+    type: string
+    description: |
+      A string indicating which enrollments process should be followed for students outside the partner institutions.
+    enum:
+      - broker
+      - url
+  jointPartnerCodes:
+    type: array
+    description: |
+      An array with a list of themes.
+    items:
+      type: string
+      enum:
+        - tue
+        - taltech
+        - dtu
+        - lx
+        - ctu
+        - tum
+        - technion
   source:
     type: object
     description: |

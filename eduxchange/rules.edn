@@ -54,8 +54,5 @@
                 :query-params {"consumer" "eduxchange"
                                "expand" "coordinators,organization"}}
                {:method "get"
-                :path   "/programs/{?id}/courses"
-                :query-params {"consumer" "eduxchange"}}
-               {:method "get"
                 :path   "/programs/{?id}/offerings"
                 :query-params {"consumer" "eduxchange"}}]}]}

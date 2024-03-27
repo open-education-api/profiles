@@ -1,13 +1,6 @@
-required:
-  - primaryCode
-  - offeringType
-  - name
-  - description
-  - teachingLanguage
-  - resultExpected
-  - startDate
-  - endDate
 properties:
+  offeringType:
+    const: course
   consumers:
     contains:
       $ref: './EduXchangeConsumerOffering.yaml'

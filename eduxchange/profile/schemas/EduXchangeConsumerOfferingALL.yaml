@@ -1,3 +1,5 @@
+required:
+ - name
 properties:
   name:
     type: string
@@ -8,6 +10,10 @@ properties:
       - lde
       - euroteq
   enrollmentUrl:
+    type: string
+    description: |
+      A string formatted as an URL to which students will be redirected.
+  enrollmentUrlForGuests:
     type: string
     description: |
       A string formatted as an URL to which students will be redirected.

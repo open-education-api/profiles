@@ -2,15 +2,39 @@ required:
  - name
 properties:
   name:
-    type: string
-    description: |
-      The name of the alliance.
-    enum:
-      - lde
+    const: lde
   theme:
     type: string
     description: |
       The theme of the Program or Course within the alliance.
+    enum:
+      - "10"
+      - "11"
+      - "12"
+      - "13"
+      - "14"
+      - "15"
+      - "16"
+      - "17"
+      - "18"
+      - "19"
+  themes:
+    type: array
+    description: |
+      An array with a list of themes.
+    items:
+      type: string
+      enum:
+        - "10"
+        - "11"
+        - "12"
+        - "13"
+        - "14"
+        - "15"
+        - "16"
+        - "17"
+        - "18"
+        - "19"
   selection:
     type: boolean
     description: |
@@ -33,6 +57,27 @@ properties:
     enum:
       - broker
       - url
+  visibleForGuests:
+    type: boolean
+    description: |
+      A boolean value indicating whether this Program or Course should be visible for students outside the partner institutions.
+  enrollmentForGuests:
+    type: string
+    description: |
+      A string indicating which enrollments process should be followed for students outside the partner institutions.
+    enum:
+      - broker
+      - url
+  jointPartnerCodes:
+    type: array
+    description: |
+      An array with a list of themes.
+    items:
+      type: string
+      enum:
+        - "21PE"
+        - "21PF"
+        - "21PB"
   source:
     type: object
     description: |
@@ -43,12 +88,9 @@ properties:
         description: |
           The shortName of the institution to identify the source institution.
         enum:
-          - tue
-          - wur
-          - uu
-          - ul
-          - tud
-          - eur
+        - "21PE"
+        - "21PF"
+        - "21PB"
       primaryCode:
         type: string
         description: |

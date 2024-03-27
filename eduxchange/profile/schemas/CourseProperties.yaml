@@ -1,12 +1,11 @@
 required:
+  - primaryCode
   - name
   - abbreviation
   - description
   - teachingLanguage
   - level
-  - primaryCode
   - studyLoad
-  - learningOutcomes
 properties:
   consumers:
     contains:

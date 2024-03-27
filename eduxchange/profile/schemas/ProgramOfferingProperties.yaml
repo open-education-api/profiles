@@ -1,9 +1,6 @@
-required:
-  - startDate
-  - endDate
 properties:
-  startDate: 
-    type: string 
+  offeringType:
+    const: program
   consumers:
     contains:
       $ref: './EduXchangeConsumerOffering.yaml'
