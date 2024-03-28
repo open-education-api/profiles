@@ -1,0 +1,6 @@
+properties:
+  offeringType:
+    const: course
+  consumers:
+    contains:
+      $ref: './EduXchangeConsumerOffering.yaml'
