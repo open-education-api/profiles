@@ -6,6 +6,7 @@ required:
   - description
   - primaryCode
   - teachingLanguage
+  - modeOfStudy
   - validFrom
   - educationSpecification
   - duration
