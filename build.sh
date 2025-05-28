@@ -22,8 +22,3 @@ echo "create json...";
 cd $PROFILE/target
 npx @redocly/openapi-cli bundle --ext=json spec.yaml > ../$PROFILE.json
 cd ../..
-
-echo "validate...\n";
-rm observations.edn
-rm report.html
-./eduhub-validator -r $PROFILE/rules.edn -u https://demo04.test.surfeduhub.nl -o observations.edn -p report.html
