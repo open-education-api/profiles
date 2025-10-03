@@ -1,0 +1,11 @@
+get:
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: '../schemas/CourseOffering.yaml'
+                title: courseOffering
+              - $ref: '../schemas/ProgramOffering.yaml'
+                title: programOffering

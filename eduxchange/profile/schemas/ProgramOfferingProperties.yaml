@@ -1,6 +1,42 @@
 properties:
   offeringType:
     const: program
-  consumers:
-    contains:
-      $ref: './EduXchangeConsumerOffering.yaml'
+  # consumers:
+  #   items:
+  #     $ref: './EduXchangeConsumerOffering.yaml'
+  abbreviation:
+    type:
+      - string
+      - 'null'
+  modeOfDelivery:
+    type:
+      - array
+      - 'null'
+  maxNumberStudents:
+    type:
+      - number
+      - 'null'
+  enrolledNumberStudents:
+    type:
+      - number
+      - 'null'
+  pendingNumberStudents:
+    type:
+      - number
+      - 'null'
+  resultValueType:
+    type:
+      - string
+      - 'null'
+  link:
+    type:
+      - string
+      - 'null'
+  otherCodes:
+    type:
+      - array
+      - 'null'
+  ext:
+    type:
+      - object
+      - 'null'

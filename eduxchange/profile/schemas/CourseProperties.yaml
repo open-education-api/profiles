@@ -8,5 +8,84 @@ required:
   - studyLoad
 properties:
   consumers:
-    contains:
+    items:
       $ref: './EduXchangeConsumerCourse.yaml'
+  modeOfDelivery:
+    type:
+      - array
+      - 'null'
+  duration:
+    type:
+      - string
+      - 'null'
+  firstStartDate:
+    type:
+      - string
+      - 'null'
+  fieldsOfStudy:
+    type:
+      - string
+      - 'null'
+  learningOutcomes:
+    type:
+      - array
+      - 'null'
+  admissionRequirements:
+    type:
+      - array
+      - 'null'
+  qualificationRequirements:
+    type:
+      - array
+      - 'null'
+  enrollment:
+    type:
+      - array
+      - 'null'
+  resources:
+    type:
+      - array
+      - 'null'
+  assessment:
+    type:
+      - array
+      - 'null'
+  link:
+    type:
+      - string
+      - 'null'
+  educationSpecification:
+    oneOf:
+      - $ref: './Identifier.yaml'
+        title: educationSpecificationId
+      - $ref: './EducationSpecification.yaml'
+        title: EducationSpecification
+      - type: 'null'
+  addresses:
+    type:
+      - object
+      - 'null'
+  otherCodes:
+    type:
+      - object
+      - 'null'
+  ext:
+    type:
+      - object
+      - 'null'
+  programs:
+    type:
+      - array
+      - 'null'
+  coordinators:
+    type:
+      - string
+      - object
+      - 'null'
+  organization:
+    oneOf:
+      - $ref: './Identifier.yaml'
+        title: organizationId
+      - $ref: './Organization.yaml'
+        title: Organization object     
+      - type: 'null'

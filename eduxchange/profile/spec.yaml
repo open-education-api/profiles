@@ -1,1 +1,44 @@
-openapi: "3.1.0"
+openapi: "3.1.1"
+paths: 
+  "/academic-sessions": null
+  "/academic-sessions/{academicSessionId}": null
+  "/academic-sessions/{academicSessionId}/offerings": null
+  "/associations": null
+  "/associations/{associationId}": null
+  "/associations/external/me": null
+  "/buildings": null
+  "/buildings/{buildingId}": null
+  "/buildings/{buildingId}/rooms": null
+  "/components/{componentId}": null
+  "/components/{componentId}/offerings": null
+  "/courses/{courseId}/components": null
+  "/education-specifications": null
+  "/education-specifications/{educationSpecificationId}": null
+  "/education-specifications/{educationSpecificationId}/courses": null
+  "/education-specifications/{educationSpecificationId}/education-specifications": null
+  "/education-specifications/{educationSpecificationId}/programs": null
+  "/groups": null
+  "/groups/{groupId}": null
+  "/groups/{groupId}/persons": null
+  "/news-feeds": null
+  "/news-feeds/{newsFeedId}": null
+  "/news-feeds/{newsFeedId}/news-items": null
+  "/news-items/{newsItemId}": null
+  "/offerings/{offeringId}/associations": null
+  "/offerings/{offeringId}/groups": null
+  "/organizations/{organizationId}": null
+  "/organizations/{organizationId}/components": null
+  "/organizations/{organizationId}/courses": null
+  "/organizations/{organizationId}/education-specifications": null
+  "/organizations/{organizationId}/groups": null
+  "/organizations/{organizationId}/offerings": null
+  "/organizations/{organizationId}/programs": null
+  "/persons": null
+  "/persons/me": null
+  "/persons/{personId}": null
+  "/persons/{personId}/associations": null
+  "/persons/{personId}/groups": null
+  "/programs/{programId}/programs": null
+  "/rooms": null
+  "/rooms/{roomId}": null
+tags: null

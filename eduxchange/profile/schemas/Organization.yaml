@@ -4,3 +4,43 @@ required:
   - organizationType
   - name
   - shortName
+properties:
+  description:
+    type:
+      - array
+      - 'null'
+  addresses:
+    type:
+      - array
+      - 'null'
+  link:
+    type:
+      - string
+      - 'null'
+  logo:
+    type:
+      - string
+      - 'null'
+  otherCodes:
+    type:
+      - object
+      - 'null'
+  parent:
+    oneOf:
+      - $ref: './Identifier.yaml'
+        title: organizationId
+      - $ref: './Organization.yaml'
+        title: Organization object     
+      - type: 'null'
+  children:
+      type: 
+        - array
+        - 'null'
+  consumers:
+    type:
+      - array
+      - 'null'
+  ext:
+    type:
+      - object
+      - 'null'

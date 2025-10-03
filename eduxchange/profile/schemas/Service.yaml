@@ -1,0 +1,9 @@
+properties:
+  consumers:
+    type:
+      - array
+      - 'null'
+  ext:
+    type:
+      - object
+      - 'null'

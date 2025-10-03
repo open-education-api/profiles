@@ -10,22 +10,32 @@ properties:
       - lde
       - euroteq
   enrollmentUrl:
-    type: string
+    type: 
+      - string
+      - 'null'
     description: |
       A string formatted as an URL to which students will be redirected.
   enrollmentUrlForGuests:
-    type: string
+    type: 
+      - string
+      - 'null'
     description: |
       A string formatted as an URL to which students will be redirected.
   enrollStartTime:
-    type: string
+    type: 
+      - string
+      - 'null'
     description: |
       A string with the time of the start of the enrollment for the offering, for example “13:00”.
   enrollEndTime:
-    type: string
+    type: 
+      - string
+      - 'null'
     description: |
       A string with the time of the eduxchange of the enrollment for the offering, for example “20:00”.
   dateComment:
-    type: string
+    type: 
+      - string
+      - 'null'
     description: |
       A string with additional date information.

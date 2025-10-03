@@ -4,7 +4,9 @@ properties:
   name:
     const: euroteq
   theme:
-    type: string
+    type:
+      - string
+      - 'null'
     description: |
       The theme of the Program or Course within the alliance.
     enum:
@@ -23,7 +25,9 @@ properties:
       - "Transport"
       - "Other subject area"
   themes:
-    type: array
+    type:
+      - array
+      - 'null'
     description: |
       An array with a list of themes.
     items:
@@ -44,40 +48,54 @@ properties:
       - "Transport"
       - "Other subject area"
   selection:
-    type: boolean
+    type:
+      - boolean
+      - 'null'
     description: |
       A boolean indicating whether this Program or Course is selective, e.g. whether student need to pass extra requirements before being allowed to enroll.
   type:
-    type: string
+    type: 
+      - string
+      - 'null'
     description: |
       A string indicating whether a Program or Course is broadening or deepening.
     enum:
       - broadening
       - deepening
   visibleForOwnStudents:
-    type: boolean
+    type:
+      - boolean
+      - 'null'
     description: |
       A boolean value indicating whether this Program or Course should be visible for students of the offering institution.
   enrollmentForOwnStudents:
-    type: string
+    type:
+      - string
+      - 'null'
     description: |
       A string indicating which enrollments process should be followed for students of the offering institution.
     enum:
       - broker
       - url
   visibleForGuests:
-    type: boolean
+    type: 
+      - boolean
+      - 'null'
     description: |
       A boolean value indicating whether this Program or Course should be visible for students outside the partner institutions.
   enrollmentForGuests:
-    type: string
+    type: 
+      - string
+      - 'null'
     description: |
       A string indicating which enrollments process should be followed for students outside the partner institutions.
     enum:
       - broker
       - url
   jointPartnerCodes:
-    type: array
+    type: 
+      - array
+      - 'null'
     description: |
       An array with a list of themes.
     items:
@@ -91,7 +109,9 @@ properties:
         - tum
         - technion
   source:
-    type: object
+    type: 
+      - object
+      - 'null'
     description: |
       An optional object with a reference to the source of a Course or Program. In an alliance one of the institutions could act as overall coordinator and specifies the program and underlying courses. Underlying courses could be given at one of the other institutions. In this source object the course at the other institution can be specified.
     properties:
@@ -117,29 +137,39 @@ properties:
         description: |
           The uuid of the course to reference the OOAPI endpoint of the source course.
   instructorNames:
-    type: array
+    type: 
+      - array
+      - 'null'
     description: |
       An array with names of all instructors.
     items:
       type: string
   contactHours:
-    type: number
+    type: 
+      - number
+      - 'null'
     format: float
     description: |
       A float with the amount of contact hours.
   activities:
-    type: string
+    type: 
+      - string
+      - 'null'
     description: |
       A string that mentions the activities that take place in the course.
   modeOfDelivery:
-    type: string
+    type: 
+      - string
+      - 'null'
     enum:
       - "Online - at a specific time"
       - "Online - time-independent"
       - "Hybrid"
       - "Blended"
   level:
-    type: string
+    type: 
+      - string
+      - 'null'
     enum:
       - "Bachelor"
       - "Master"

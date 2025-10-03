@@ -1,0 +1,20 @@
+properties:
+  academicSession:
+    description: |
+      The academicsession during which this courseoffering takes place. [`expandable`](#tag/academic_session_model)
+      By default only the `academicSessionId` (a string) is returned. If the client requested an expansion of `academicSession` the full academicsession object should be returned.
+    oneOf:
+      - $ref: './Identifier.yaml'
+        title: academicSessionId
+      - $ref: './AcademicSession.yaml'
+        title: AcademicSession object
+      - type: 'null'
+  minNumberStudents:
+    type:
+      - number
+      - 'null'
+  consumers:
+    description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://openonderwijsapi.nl/#/technical/consumers-and-profiles/) for more information about this mechanism.
+    type: array
+    items:
+      $ref: './EduXchangeConsumerOffering.yaml'

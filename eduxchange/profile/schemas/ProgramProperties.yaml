@@ -9,6 +9,109 @@ required:
   - studyLoad
 properties:
   consumers:
-    contains:
+    items:
       $ref: './EduXchangeConsumerCourse.yaml'
+  qualificationAwarded:
+  modeOfStudy:
+    type:
+      - string
+      - 'null'
+  modeOfDelivery:
+    type:
+      - array
+      - 'null'
+  duration:
+    type:
+      - string
+      - 'null'
+  firstStartDate:
+    type:
+      - string
+      - 'null'
+  levelOfQualification:
+  sector:
+  fieldsOfStudy:
+    type:
+      - string
+      - 'null'
+  enrollment:
+    type:
+      - array
+      - 'null'
+  resources:
+    type:
+      - array
+      - 'null'
+  learningOutcomes:
+    type:
+      - array
+      - 'null'
+  assessment:
+    type:
+      - array
+      - 'null'
+  admissionRequirements:
+    type:
+      - array
+      - 'null'
+  qualificationRequirements:
+    type:
+      - array
+      - 'null'
+  link:
+    type:
+      - string
+      - 'null'
+  educationSpecification:
+    oneOf:
+      - $ref: './Identifier.yaml'
+        title: educationSpecificationId
+      - $ref: './EducationSpecification.yaml'
+        title: EducationSpecification
+      - type: 'null'
+  otherCodes:
+    type:
+      - object
+      - 'null'
+  addresses:
+    type:
+      - object
+      - 'null'
+  parent:
+    description: Parent program of which the current program is a child. This object is [`expandable`](#tag/program_model) 
+    oneOf:
+      - $ref: './Identifier.yaml'
+        title: programId
+      - $ref: './Program.yaml'
+        title: Expanded Program    
+      - type: 'null'
+  children:
+    type:
+      - array
+      - 'null'
+    description: Programs which are a part of this program (e.g specializations). This object is [`expandable`](#tag/program_model)
+    items:
+      oneOf:
+        - $ref: './Identifier.yaml'
+          title: programId
+        - $ref: './Program.yaml'
+          title: Expanded Program   
+  coordinators:
+    type:
+      - string
+      - object
+      - 'null'
+  organization:
+    oneOf:
+      - $ref: './Identifier.yaml'
+        title: organizationId
+      - $ref: './Organization.yaml'
+        title: Organization object     
+      - type: 'null'
+  ext:
+    type:
+      - object
+      - 'null'
+
+
 

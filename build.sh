@@ -20,5 +20,5 @@ echo "merge profile...";
 # create
 echo "create json...";
 cd $PROFILE/target
-npx @redocly/openapi-cli bundle --ext=json spec.yaml > ../$PROFILE.json
+npx @redocly/cli@1.34.5 bundle --ext=json spec.yaml > ../$PROFILE.json
 cd ../..
