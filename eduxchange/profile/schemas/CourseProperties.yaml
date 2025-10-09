@@ -63,11 +63,11 @@ properties:
       - type: 'null'
   addresses:
     type:
-      - object
+      - array
       - 'null'
   otherCodes:
     type:
-      - object
+      - array
       - 'null'
   ext:
     type:
@@ -79,8 +79,7 @@ properties:
       - 'null'
   coordinators:
     type:
-      - string
-      - object
+      - array
       - 'null'
   organization:
     oneOf:

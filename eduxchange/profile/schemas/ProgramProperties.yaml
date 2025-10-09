@@ -71,11 +71,11 @@ properties:
       - type: 'null'
   otherCodes:
     type:
-      - object
+      - array
       - 'null'
   addresses:
     type:
-      - object
+      - array
       - 'null'
   parent:
     description: Parent program of which the current program is a child. This object is [`expandable`](#tag/program_model) 
@@ -98,8 +98,7 @@ properties:
           title: Expanded Program   
   coordinators:
     type:
-      - string
-      - object
+      - array
       - 'null'
   organization:
     oneOf:

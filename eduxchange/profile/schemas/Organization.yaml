@@ -23,7 +23,7 @@ properties:
       - 'null'
   otherCodes:
     type:
-      - object
+      - array
       - 'null'
   parent:
     oneOf:
