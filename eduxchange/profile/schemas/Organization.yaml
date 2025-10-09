@@ -25,6 +25,7 @@ properties:
     type:
       - array
       - 'null'
+    minItems: null
   parent:
     oneOf:
       - $ref: './Identifier.yaml'
