@@ -10,3 +10,4 @@ allOf:
       - resultExpected
       - startDate
       - endDate
+      - consumers

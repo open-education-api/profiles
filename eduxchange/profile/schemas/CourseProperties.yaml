@@ -6,6 +6,7 @@ required:
   - teachingLanguage
   - level
   - studyLoad
+  - consumers
 properties:
   consumers:
     items:
