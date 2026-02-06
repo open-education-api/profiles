@@ -11,3 +11,4 @@ allOf:
             - $ref: ./EduXchangeConsumerCourseEWUU.yaml
             - $ref: ./EduXchangeConsumerCourseLDE.yaml
             - $ref: ./EduXchangeConsumerCourseEUROTEQ.yaml
+            - $ref: ./EduXchangeConsumerCourseKOM.yaml

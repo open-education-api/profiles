@@ -9,6 +9,7 @@ properties:
       - ewuu
       - lde
       - euroteq
+      - kom
   enrollmentUrl:
     type: 
       - string
