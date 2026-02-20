@@ -9,6 +9,7 @@ properties:
     type:
       - array
       - 'null'
+    minItems: 0
   addresses:
     type:
       - array
