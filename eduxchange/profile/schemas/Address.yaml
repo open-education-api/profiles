@@ -1,3 +1,4 @@
+required: []
 properties:
   additional:
     minItems: 0

@@ -1,0 +1,5 @@
+enum:
+  - partner
+  - parent
+  - other
+  - ''

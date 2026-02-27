@@ -6,4 +6,5 @@ observations.edn
 eduhub-validator
 report.html
 eduxchange/target
+ooapi/target.propagate-state.json
 ooapi/target
