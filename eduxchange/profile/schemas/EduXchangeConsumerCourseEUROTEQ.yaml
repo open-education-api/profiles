@@ -10,6 +10,7 @@ properties:
     description: |
       The theme of the Program or Course within the alliance.
     enum:
+      - ""
       - "Architecture and Construction"
       - "Business and Economics"
       - "Chemistry and Biology"
@@ -33,6 +34,7 @@ properties:
     items:
       type: string
       enum:
+      - ""
       - "Architecture and Construction"
       - "Business and Economics"
       - "Chemistry and Biology"
