@@ -66,7 +66,9 @@
 (defn file-refs
   "Take a structure `x` and return its $ref entries with file paths.
 
-  A $ref entry is a map with a `:$ref` key."
+  A $ref entry is a map with a `:$ref` key.
+
+  Fragments in refs are ignored; returns only file paths."
   [x]
   (->> x
        (tree-seq #(or (map? %) (sequential? %))
@@ -75,7 +77,8 @@
                (when (map? el)
                  (:$ref el))))
        ;; ignore internal JSON Pointer refs, we want paths to files.
-       (filter #(not (string/starts-with? % "#")))))
+       (map #(string/replace % #"#.*" ""))
+       (remove string/blank?)))
 
 (defn normalize-path
   "Normalize `ref-path` relative to `source-path`.
