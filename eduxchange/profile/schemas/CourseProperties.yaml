@@ -9,7 +9,7 @@ required:
   - consumers
 properties:
   consumers:
-    items:
+    contains:
       $ref: './EduXchangeConsumerCourse.yaml'
   modeOfDelivery:
     type:

@@ -10,7 +10,7 @@ required:
   - consumers
 properties:
   consumers:
-    items:
+    contains:
       $ref: './EduXchangeConsumerCourse.yaml'
   qualificationAwarded:
   modeOfStudy:

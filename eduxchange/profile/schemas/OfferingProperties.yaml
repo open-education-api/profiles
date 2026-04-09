@@ -16,5 +16,5 @@ properties:
   consumers:
     description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://openonderwijsapi.nl/#/technical/consumers-and-profiles/) for more information about this mechanism.
     type: array
-    items:
+    contains:
       $ref: './EduXchangeConsumerOffering.yaml'
