@@ -1,0 +1,10 @@
+required:
+  - courseId
+  - name
+  - primaryCode
+  - validFrom
+  - duration
+properties:
+  consumer:
+    allOf:
+      - $ref: './CourseRioConsumer.yaml'

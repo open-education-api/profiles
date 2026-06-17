@@ -2,6 +2,7 @@ base-with-profile/
 .clj-kondo/
 .lsp/
 rio/target
+rio-v6/target
 observations.edn
 eduhub-validator
 report.html

@@ -1,0 +1,9 @@
+required:
+  - programmeOfferingId
+  - primaryCode
+  - name
+  - enrolmentPeriods
+properties:
+  consumer:
+    contains:
+      $ref: './OfferingRioConsumer.yaml'

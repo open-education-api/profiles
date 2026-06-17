@@ -1,0 +1,9 @@
+required:
+  - courseOfferingId
+  - primaryCode
+  - name
+  - enrolmentPeriods
+properties:
+  consumer:
+    allOf:
+      - $ref: './OfferingRioConsumer.yaml'

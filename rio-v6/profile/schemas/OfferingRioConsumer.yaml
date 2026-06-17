@@ -1,0 +1,63 @@
+allOf:
+  - $ref: './Consumer.yaml'
+  - required:
+      - registrationStatus
+      - requiredPermissionRegistration
+properties:
+  consumerKey:
+    const: rio
+  explanationRequiredPermission:
+    type: string
+    description: |
+      toelichtingVereisteToestemming
+      Is een tekstuele toelichting op de voor aanmelding vereiste toestemming van de onderwijsaanbieder
+  requiredPermissionRegistration:
+    type: string
+    description: |
+      toestemmingVereistVoorAanmelding
+      Geeft aan of een aspirant-student voor een bepaald cohort van een aangeboden opleiding toestemming van de onderwijsaanbieder nodig heeft om zich aan te mogen melden.
+      - yes: JA
+      - no: NEE
+    enum:
+      - yes
+      - no
+  registrationStatus:
+    type: string
+    description: |
+      cohortStatus
+      De toegestane waarden voor de status van een cohort van een aangeboden opleiding. Hiermee kan bijvoorbeeld worden aangegeven of een bepaald cohort open staat voor aanmelding, of dat het gesloten is.
+    enum:
+      - open
+      - closed
+  modesOfDelivery:
+    type: array
+    description: |
+      An optional modesOfDelivery attribute.
+      Only when present, the value of this optional modesOfDelivery attribute will override the main objects modesOfDelivery value. This value will be mapped one-on-one to opleidingsvorm in RIO:
+      - online: ONLINE
+      - hybrid: KLASSIKAAL_EN_ONLINE
+      - blended: KLASSIKAAL_EN_ONLINE
+      - presential: KLASSIKAAL
+      - lecture: LEZING
+      - self_study: ZELFSTUDIE
+      - coaching: COACHING
+    enum:
+      - online
+      - hybrid
+      - presential
+      - blended
+      - lecture
+      - self_study
+      - coaching
+  enrolmentPeriod:
+    $ref: './EnrolmentPeriods.yaml'
+  teachingLanguages:
+    type:
+      - array
+      - 'null'
+    description: The languages in which this programme is given, should be three-letter language codes as specified by ISO 639-2. A student should be reasonably proficient in each language to be able to follow the programme.
+    minItems: 1
+    maxItems: 3
+    items:
+      $ref: './Language.yaml'
+  

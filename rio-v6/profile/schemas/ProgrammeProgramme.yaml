@@ -1,0 +1,17 @@
+required:
+  - programmeId
+  - primaryCode
+  - programmeType
+  - name
+  - validFrom
+  - level
+  - consumer
+properties:
+  programmeType:
+    const: programme
+  consumer:
+    allOf:
+      - $ref: './ProgrammeRioConsumer.yaml'
+        required:
+        - specificationId
+  

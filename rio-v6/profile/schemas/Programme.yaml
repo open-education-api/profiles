@@ -1,0 +1,6 @@
+oneOf:
+  - $ref: './HoOpleidingProperties.yaml'
+  - $ref: './HOECProperties.yaml'
+  - $ref: './HoOnderwijsEenheidProperties.yaml'
+  - $ref: './HoParticuliereOpleidingProperties.yaml'
+  - $ref: './ProgrammeProgramme.yaml'

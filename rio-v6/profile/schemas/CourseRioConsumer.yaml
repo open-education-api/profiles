@@ -1,0 +1,63 @@
+allOf:
+  - $ref: './Consumer.yaml'
+  - required:
+    - educationOffererCode
+    - specificationId
+    properties:
+      consumerKey:
+        const: rio
+      educationOffererCode:
+        type: string
+        description: |
+          onderwijsaanbiedercode
+          Een betekenisloze identifier voor een onderwijsaanbieder in de Registratie Instellingen en Opleidingen.
+          pattern: ^(?:\d{3}A\d{3})$
+      educationLocationCode:
+        type: string
+        description: |
+          onderwijslocatiecode
+          Een betekenisloze identifier voor een onderwijslocatie in de Registratie Instellingen en Opleidingen.
+        pattern: ^(?:\d{3}X\d{3})$
+      jointPartnerCodes:
+        type: array
+        items:
+          type: string
+          pattern: ^(?:\d{3}A\d{3})$
+        minItems: 1
+        description: |
+          samenwerkendeOnderwijsaanbiedercode
+          Code van de onderwijsaanbieder waarmee wordt samengewerkt OnderwijsaanbiederID-v01
+      foreignPartners:
+        type: array
+        items: 
+          type: string
+        minItems: 1
+        description: |
+          buitenlandsePartner
+          Beschrijving van de organisatie waarmee door een Nederlandse onderwijsbestuur wordt samengewerkt
+          bij het verzorgen van een Joint Degree.
+      specificationId:
+        type: string
+        description: The ID of the Programme of type specfication that this Course is related to.
+        format: uuid
+        example: 123e4567-e89b-12d3-a456-134564174000
+      lastStartDateTime:
+        type: string
+        description: The start date on which participants can last enter the Course.
+        format: date
+      studyLoad:
+        $ref: ./StudyLoadDescriptor.yaml
+      teachingLanguages:
+        type:
+          - array
+          - 'null'
+        description: The languages in which this programme is given, should be three-letter language codes as specified by ISO 639-2. A student should be reasonably proficient in each language to be able to follow the programme.
+        minItems: 1
+        maxItems: 3
+        items:
+          $ref: './Language.yaml'
+  
+
+
+
+

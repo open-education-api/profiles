@@ -1,0 +1,9 @@
+get:
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - title: With timelineOverrides
+                $ref: '../schemas/ProgrammeExpanded.yaml'

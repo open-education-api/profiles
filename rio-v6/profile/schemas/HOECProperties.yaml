@@ -1,0 +1,17 @@
+required:
+  - programmeId
+  - primaryCode
+  - programmeType
+  - name
+  - validFrom
+properties:
+  programmeType:
+    const: specification
+  consumer:
+    allOf:
+      - $ref: './ProgrammeRioConsumer.yaml'
+        properties:
+          specificationType:
+            const: cluster
+        required: 
+          - specificationType

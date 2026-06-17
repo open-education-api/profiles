@@ -1,0 +1,9 @@
+required:
+  - programmeId
+  - programmeType
+  - name
+  - primaryCode
+properties:
+  consumer:
+    allOf:
+      - $ref: './ProgrammeRioConsumer.yaml'
